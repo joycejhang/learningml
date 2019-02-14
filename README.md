@@ -3,7 +3,7 @@
 
 ### Linear Regression 
 
-### 熟悉 MNIST Softmax 模型手寫數字辨識資料集
+### MNIST Softmax 模型手寫數字辨識資料集
 
 ### MNIST 卷積神經網路 Convolutional Neural Network(CNN)
 
