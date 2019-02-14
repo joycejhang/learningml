@@ -39,16 +39,18 @@ select_data=read_original_data.iloc[:,:all_num].values
 #Receive training data
 def get_train_data(batch_size,time_step,train_end):
     intercept_data=select_data[0:train_end]
-    #normalize
+    #normalize data
     normalize_train_data=(intercept_data-np.mean(intercept_data,axis=0))/np.std(intercept_data,axis=0)
     batch_index=[]
     train_x,train_y=[],[]
     for i in range(len(normalize_train_data)-time_step):
+        #set bLOck
         if i % batch_size==0:
             batch_index.append(i)
         x=normalize_train_data[i:i+time_step,output_size:all_num]
         #add dimension
         y=normalize_train_data[i:i+time_step,0,np.newaxis]
+        #List [x],[y]
         train_x.append(x.tolist())
         train_y.append(y.tolist())
     batch_index.append(len(normalize_train_data)-time_step)
@@ -73,6 +75,7 @@ def get_test_data(time_step,test_begain):
     return mean_test_data,std_test_data,test_x,test_y       
     
 #LSTM model
+###########################################################################################################################
 weights={
         'in':tf.Variable(tf.random_normal([input_size,rnn_unit])),
         'out':tf.Variable(tf.random_normal([rnn_unit,output_size]))
@@ -116,6 +119,7 @@ def rnn_lstm(X):
     #[,rnn_unit]*[rnn_unit,output_siz]+[output_size,]=[,output_size]
     predict_label=tf.matmul(output,weight_out)+bias_out
     return predict_label,last_states
+#############################################################################################################################
 
 #train lstm model
 def train_lstm(batch_size,time_step,train_end,learning_rate):
